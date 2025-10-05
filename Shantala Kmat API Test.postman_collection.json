@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "128a5fcf-e04d-4b02-bd8b-a58528f648c9",
+		"name": "Shantala Kmat API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48659501",
+		"_collection_link": "https://shantalakamat007-2977384.postman.co/workspace/30116f12-c82d-4960-b1af-5be7d62c798e/collection/48659501-128a5fcf-e04d-4b02-bd8b-a58528f648c9?action=share&source=collection_link&creator=48659501"
+	},
+	"item": [
+		{
+			"name": "Scenario1: Create a new employee- verify id retured is in numerical format",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Store the parsed JSON response in a variable\r",
+							"const responseData = pm.response.json();\r",
+							"\r",
+							"// Log the parsed data (using the stored variable)\r",
+							"console.log(responseData);\r",
+							"\r",
+							"// verify id is in numerical status or not\r",
+							"pm.test(\"Verify id is a number\", function () {\r",
+							"    // Access the id property from the stored variable\r",
+							"    pm.expect(responseData.id).to.be.a('number');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 622ca1120dd30fc6b34287bfc852e9d736de59a4a118b0981a6dd237628dd11a"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"gender\": \"{{gender}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"status\": \"{{status}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/public/v2/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Scenario 2: Verify status for first entry is only either \"active\" or \"inactive\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the JSON response body once\r",
+							"const responseData = pm.response.json();\r",
+							"\r",
+							"// Test to verify the 'status' value of the first user\r",
+							"pm.test(\"Status is 'active' or 'inactive'\", function () {\r",
+							"    \r",
+							"    // Check that the response is an array and has at least one element\r",
+							"    pm.expect(responseData).to.be.an('array').and.to.not.be.empty;\r",
+							"\r",
+							"    // Access the FIRST user object in the array (at index 0)\r",
+							"    const firstUserStatus = responseData[0].status;\r",
+							"    \r",
+							"    // Check the status property value\r",
+							"    pm.expect(firstUserStatus).to.be.oneOf([\"active\", \"inactive\"]);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/public/v2/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "gender",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "status",
+			"value": ""
+		}
+	]
+}
